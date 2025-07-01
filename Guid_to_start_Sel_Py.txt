@@ -1,0 +1,95 @@
+To start using Selenium + Python + pytest in VS Code, follow these steps:
+
+
+
+1_Set Up Your Environment
+a) Install Python
+Download and install Python from python.org.
+
+During installation, check the box to Add Python to PATH.
+
+b) Install VS Code
+Download and install VS Code.
+
+c) Install Extensions
+Open VS Code → Go to Extensions (Ctrl + Shift + X).
+
+Install:
+
+Python extension by Microsoft
+
+Pytest Test Explorer (optional, for visual test results)
+
+d) Set Up Virtual Environment
+Open your project folder in VS Code.
+
+Create a virtual environment:
+
+bash
+Copy
+Edit
+python -m venv venv
+Activate it:
+
+Windows: venv\Scripts\activate
+
+Mac/Linux: source venv/bin/activate
+
+2_ Install Required Libraries
+Run these commands in the VS Code terminal:
+
+bash
+Copy
+Edit
+pip install selenium pytest pytest-html webdriver-manager
+
+3_Set Up ChromeDriver Automatically
+To avoid managing driver versions manually, use webdriver-manager:
+
+Include this in your tests:
+
+python
+Copy
+Edit
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
+driver = webdriver.Chrome(ChromeDriverManager().install())
+
+4_Write a Simple Test
+Create a file: test_sample.py.
+
+Add the following code:
+
+python
+Copy
+Edit
+import pytest
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
+@pytest.fixture
+def setup_browser():
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver.maximize_window()
+    yield driver
+    driver.quit()
+
+def test_google_search(setup_browser):
+    driver = setup_browser
+    driver.get("https://www.google.com")
+    assert "Google" in driver.title
+
+5 Run Your Tests
+Open a terminal in VS Code.
+
+Run pytest:
+
+bash
+Copy
+Edit
+pytest --html=report.html
+This generates an HTML test report.
+
+6_Visualize Tests in VS Code (Optional)
+Use the Pytest Test Explorer extension to see test results directly in VS Code.
